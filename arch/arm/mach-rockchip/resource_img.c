@@ -881,6 +881,8 @@ static struct resource_file *rockchip_read_hwid_dtb(void)
 int rockchip_read_resource_dtb(void *fdt_addr, char **hash, int *hash_size)
 {
 	struct resource_file *file;
+	char fdtfile[MAX_FILE_NAME_LEN];
+	const char *hwid;
 	int ret;
 
 #ifdef CONFIG_ROCKCHIP_HWID_DTB
@@ -904,6 +906,18 @@ int rockchip_read_resource_dtb(void *fdt_addr, char **hash, int *hash_size)
 	*hash = file->hash;
 	*hash_size = file->hash_size;
 	printf("DTB: %s\n", file->name);
+
+	/* Let extlinux FDTDIR use the DTB selected by the hardware ID. */
+	hwid = strchr(file->name, '#');
+	if (hwid) {
+		ret = snprintf(fdtfile, sizeof(fdtfile), "%.*s.dtb",
+			       (int)(hwid - file->name), file->name);
+		if (ret >= (int)sizeof(fdtfile))
+			return -ENAMETOOLONG;
+		ret = env_set("fdtfile", fdtfile);
+		if (ret)
+			return ret;
+	}
 
 	return 0;
 }

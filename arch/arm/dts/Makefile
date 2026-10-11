@@ -27,6 +27,9 @@ dtb-$(CONFIG_EXYNOS5) += exynos5250-arndale.dtb \
 	exynos5800-peach-pi.dtb \
 	exynos5422-odroidxu3.dtb
 dtb-$(CONFIG_EXYNOS7420) += exynos7420-espresso7420.dtb
+ifeq ($(CONFIG_ROCKCHIP_RK3568),y)
+dtb-y += rk3568-evb.dtb
+else
 dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3036-sdk.dtb \
 	rk3066a-mk808.dtb \
@@ -57,6 +60,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3399-puma-ddr1600.dtb \
 	rk3399-puma-ddr1866.dtb \
 	rv1108-evb.dtb
+endif
 dtb-$(CONFIG_ARCH_MESON) += \
 	meson-gxbb-odroidc2.dtb
 dtb-$(CONFIG_TEGRA) += tegra20-harmony.dtb \

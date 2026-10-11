@@ -9,7 +9,7 @@
 source ./${srctree}/arch/arm/mach-rockchip/make_fit_args.sh
 
 rm -f ${srctree}/*.digest ${srctree}/*.bin.gz ${srctree}/bl31_0x*.bin
-${srctree}/arch/arm/mach-rockchip/decode_bl31.py
+${srctree}/arch/arm/mach-rockchip/decode_bl31.py || exit 1
 
 if [ "${COMPRESSION}" == "gzip" ]; then
 	SUFFIX=".gz"
