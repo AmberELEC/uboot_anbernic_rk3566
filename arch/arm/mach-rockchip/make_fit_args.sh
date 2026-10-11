@@ -28,7 +28,11 @@ function help()
 	echo
 }
 
-if [ $# -eq 1 ]; then
+if [ $# -eq 1 ] && [[ "$1" == *.dtb ]] &&
+   ! grep -q '^CONFIG_OPTEE_CLIENT=y' .config; then
+	# The make target passes the U-Boot DTB, not a request for OP-TEE.
+	shift
+elif [ $# -eq 1 ]; then
 	# default
 	TEE_OFFSET=0x08400000
 else
